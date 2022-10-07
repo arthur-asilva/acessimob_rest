@@ -1,19 +1,25 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
+from .manager import UserManager
 
-class User(models.Model):
-    givenName = models.CharField(max_length=250)
-    familyName = models.CharField(max_length=250)
-    email = models.CharField(max_length=250)
-    password = models.CharField(max_length=20)
-    photo = models.CharField(max_length=250)
-    is_active = models.BooleanField(default=False, null=True)
+class User(AbstractUser):
 
-    @property
-    def name(self):
-        return f"{self.givenName} {self.familyName }"
+    STATUS = (
+        ('regular', 'regular'),
+        ('moderator', 'moderator')
+    )
 
-    @classmethod
-    def post(cls, request):
-        data = cls(**request.data)
-        data.save()
-        return data
+    username = None
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    email = models.EmailField(max_length=254, unique=True)
+    status = models.CharField(max_length=50, choices=STATUS, default='regular')
+    bio = models.TextField(max_length=600, blank=True, default='')
+    photo = models.CharField(max_length=250, default='', null=True)
+    name = models.CharField(max_length=250)
+
+    objects = UserManager()
+
+    def __str__(self) -> str:
+        return self.email
