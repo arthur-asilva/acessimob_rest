@@ -7,9 +7,11 @@ from apps.user.serializers import Serializer
 from rest_framework.authtoken.models import Token
 import base64
 import os
+from tools.decorators import is_authenticate
 
 
-@api_view(['GET'])
+@api_view(['POST'])
+@is_authenticate
 def getData(request):
     users = User.objects.all()
     serializer = Serializer(users, many=True)
@@ -37,6 +39,7 @@ def authUser(request):
 
 
 @api_view(['PUT'])
+@is_authenticate
 def postLocation(request):
     user = Token.objects.get(key=request.data['token']).user
     photo = str.encode(request.data['photo'])
