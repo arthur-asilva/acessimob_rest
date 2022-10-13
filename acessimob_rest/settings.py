@@ -28,11 +28,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-if BASE_DIR is secret_keys.REMOTE_BASE_DIR:
+if str(BASE_DIR) is secret_keys.REMOTE_BASE_DIR:
     DEBUG = False
     ALLOWED_HOSTS = ['ec2-3-144-204-28.us-east-2.compute.amazonaws.com']
-
-
+    
 # Application definition
 
 INSTALLED_APPS = [
