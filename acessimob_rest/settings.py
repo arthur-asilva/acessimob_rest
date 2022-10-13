@@ -24,13 +24,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = secret_keys.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
 
 if str(BASE_DIR) == secret_keys.REMOTE_BASE_DIR:
     DEBUG = False
     ALLOWED_HOSTS = ['ec2-3-144-204-28.us-east-2.compute.amazonaws.com']
+else:
+    DEBUG = True
+    ALLOWED_HOSTS = []
     
 # Application definition
 
